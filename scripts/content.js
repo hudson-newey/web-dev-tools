@@ -1,4 +1,10 @@
 (() => {
+  function removeStylesheet(target) {
+    document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
+      (stylesheet) => stylesheet !== target
+    );
+  }
+
   const outlineStylesheet = new CSSStyleSheet();
   outlineStylesheet.replaceSync(`* { outline: 1px solid tomato; }`);
 
@@ -6,9 +12,31 @@
     if (active) {
       document.adoptedStyleSheets.push(outlineStylesheet);
     } else {
-      document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
-        (stylesheet) => stylesheet !== outlineStylesheet
-      );
+        removeStylesheet(outlineStylesheet);
+    }
+  }
+
+  const overflowStylesheet = new CSSStyleSheet();
+  overflowStylesheet.replaceSync(
+    `.__dev_has_overflow { outline: 2px dashed red; }`
+  );
+
+  function __dev_toggle_overflow(active) {
+    if (active) {
+      const elements = document.querySelectorAll("*");
+      elements.forEach((element) => {
+        const isOverflowing =
+          element.scrollWidth > element.clientWidth ||
+          element.scrollHeight > element.clientHeight;
+
+        if (isOverflowing) {
+          element.classList.add("__dev_has_overflow");
+        }
+      });
+
+      document.adoptedStyleSheets.push(overflowStylesheet);
+    } else {
+        removeStylesheet(overflowStylesheet);
     }
   }
 
@@ -18,6 +46,14 @@
       {
         name: "__dev_toggle_outline",
         callback: __dev_toggle_outline,
+        active: false,
+      },
+    ],
+    [
+      "w",
+      {
+        name: "__dev_toggle_overflow",
+        callback: __dev_toggle_overflow,
         active: false,
       },
     ],
@@ -45,7 +81,9 @@
       foundModule.callback(newState);
       foundModule.active = newState;
     } else {
-        console.debug(`Could not find web dev tools module '${moduleIdentifier}'`);
+      console.debug(
+        `Could not find web dev tools module '${moduleIdentifier}'`
+      );
     }
   });
 

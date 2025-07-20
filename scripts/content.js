@@ -12,7 +12,7 @@
     if (active) {
       document.adoptedStyleSheets.push(outlineStylesheet);
     } else {
-        removeStylesheet(outlineStylesheet);
+      removeStylesheet(outlineStylesheet);
     }
   }
 
@@ -36,7 +36,7 @@
 
       document.adoptedStyleSheets.push(overflowStylesheet);
     } else {
-        removeStylesheet(overflowStylesheet);
+      removeStylesheet(overflowStylesheet);
     }
   }
 
@@ -77,6 +77,8 @@
     const moduleIdentifier = event.key;
     const foundModule = activeModules.get(moduleIdentifier);
     if (foundModule) {
+      event.preventDefault();
+
       const newState = !foundModule.active;
       foundModule.callback(newState);
       foundModule.active = newState;

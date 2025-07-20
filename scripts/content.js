@@ -30,7 +30,6 @@
     const activationKey = "\\";
 
     if (event.key === activationKey) {
-      console.log("Activating web dev tools modules");
       modifierActive = true;
       return;
     } else if (!modifierActive) {
@@ -41,11 +40,9 @@
 
     const moduleIdentifier = event.key;
     const foundModule = activeModules.get(moduleIdentifier);
-    console.debug("finding module", moduleIdentifier, foundModule);
     if (foundModule) {
       const newState = !foundModule.active;
       foundModule.callback(newState);
-      console.log(foundModule);
       foundModule.active = newState;
     } else {
         console.debug(`Could not find web dev tools module '${moduleIdentifier}'`);

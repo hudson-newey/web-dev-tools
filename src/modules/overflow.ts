@@ -3,7 +3,7 @@ import { Module } from "./module.class";
 
 export class OverflowModule extends Module {
   public readonly name = "__dev_toggle_overflow";
-  private overflowStylesheet = new CSSStyleSheet();
+  private readonly overflowStylesheet = new CSSStyleSheet();
 
   public constructor() {
     super();

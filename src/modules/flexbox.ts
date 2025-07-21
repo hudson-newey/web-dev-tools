@@ -25,6 +25,7 @@ export class FlexboxModule extends Module {
 
     if (this.active) {
       document.adoptedStyleSheets.push(this.flexboxStylesheet);
+
       this.mutationObserver.observe(document.getRootNode(), {
         attributes: false,
         childList: true,

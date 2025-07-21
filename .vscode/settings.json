@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
-        "flexbox"
-    ]
+        "flexbox",
+        "Vsync"
+    ],
+    "editor.formatOnSave": true
 }

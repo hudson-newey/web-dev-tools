@@ -8,6 +8,7 @@ A collection of tools/helpers to help me with web development.
 | \ + w    | Outline overflowing containers |
 | \ + e    | Outline flexbox's              |
 | \ + a    | Show DOM summary               |
+| \ + =    | Enter/Exit "edit mode"         |
 
 ## Example: Outline Overflowing Containers
 

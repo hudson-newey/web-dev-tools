@@ -1,6 +1,9 @@
 const modalStylesheet = new CSSStyleSheet();
 modalStylesheet.replaceSync(`
 .__dev_modal {
+  display: flex;
+  flex-direction: column;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -67,8 +70,11 @@ modalStylesheet.replaceSync(`
 }
 
 .__dev_modal_content {
+  display: block;
   padding: 0.5rem;
   padding-inline: 1rem;
+
+  flex: 1;
 }
 `);
 

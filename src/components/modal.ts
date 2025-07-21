@@ -1,23 +1,115 @@
+const modalStylesheet = new CSSStyleSheet();
+modalStylesheet.replaceSync(`
+.__dev_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0.5rem;
+
+  min-width: min(400px, 80%);
+  min-height: min(200px, 80%);
+  border-radius: 8px;
+
+  background-color: black;
+
+  contain: content;
+  z-index: 999999999;
+
+  /*
+    Styles so that when I'm dragging the modal, it doesn't select text on the
+    page.
+  */
+  user-select: none;
+
+  /*
+    CSS Overrides because the host page might apply different styles
+    Note that we use absolute (e.g. px) values because the host website might
+    have changed the font size at the "root"/html level.
+  */
+  * {
+    color: white !important;
+    font-family: sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.75 !important;
+  }
+ 
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+.__dev_modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #333;
+
+  padding: 0.25rem;
+  padding-inline: 1rem;
+
+  margin-bottom: 0.5rem;
+
+  #__dev_close-btn {
+    background-color: transparent;
+    
+    padding: 0.25rem;
+    
+    border: none;
+    border-radius: 6px;
+  }
+}
+
+.__dev_modal_content {
+  padding: 0.5rem;
+  padding-inline: 1rem;
+}
+`);
+
+document.adoptedStyleSheets.push(modalStylesheet);
+
 const modal = document.createElement("div");
-modal.style.position = "fixed";
-modal.style.top = "0";
-modal.style.left = "0";
-modal.style.margin = "0.5rem";
-
-modal.style.width = "min(400px, 80%)";
-modal.style.height = "min(200px, 80%)";
-
-modal.style.color = "white";
-modal.style.backgroundColor = "black";
-modal.style.borderRadius = "8px";
-modal.style.padding = "8px";
-
-modal.style.zIndex = "999999999";
+modal.className = "__dev_modal";
 
 const modalHeader = document.createElement("div");
-modalHeader.innerHTML = ``;
+modalHeader.className = "__dev_modal_header";
+modalHeader.innerHTML = `
+<span>web-dev-tools</span>
+<button id="__dev_close-btn">Close</button>
+`;
+
+// make the modal draggable through the header
+modalHeader.addEventListener("pointerdown", (e) => {
+  const target = e.target as HTMLElement;
+  if (target.id === "__dev_close-btn") {
+    closeModal();
+    return;
+  }
+
+  const modalRect = modal.getBoundingClientRect();
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+
+  const onMouseMove = (e: MouseEvent) => {
+    const dx = e.clientX - mouseX;
+    const dy = e.clientY - mouseY;
+
+    modal.style.left = `${modalRect.left + dx}px`;
+    modal.style.top = `${modalRect.top + dy}px`;
+  };
+  const onMouseUp = () => {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
+});
 
 const modalContent = document.createElement("div");
+modalContent.className = "__dev_modal_content";
 
 modal.appendChild(modalHeader);
 modal.appendChild(modalContent);

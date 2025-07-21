@@ -35,7 +35,6 @@ export class InfoModule extends Module {
     const flexboxNodes = flexboxElements();
 
     const modalContent = `
-      <h4>DOM Summary</h4>
       <ul>
         <li>Nodes: ${domNodes.length.toLocaleString()}</li>
         <li>Flexbox's: ${flexboxNodes.length.toLocaleString()}</li>

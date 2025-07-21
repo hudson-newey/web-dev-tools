@@ -1,0 +1,16 @@
+{
+  "name": "web-dev-tools",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "vite": "^7.0.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

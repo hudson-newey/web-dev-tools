@@ -1,15 +1,19 @@
 import { closeModal, injectModal, isModalOpen } from "../components/modal";
 import { countCSSVariables } from "../selectors/css";
 import { flexboxElements } from "../selectors/flexbox";
+import { Module } from "./module.class";
 
-export function __dev_toggle_info() {
-  if (isModalOpen()) {
-    closeModal();
-  } else {
-    const domNodes = [...document.getElementsByTagName("*")];
-    const flexboxNodes = flexboxElements();
+export class InfoModule extends Module {
+  public readonly name = "__dev_toggle_info";
 
-    const modalContent = `
+  public override toggle(): void {
+    if (isModalOpen()) {
+      closeModal();
+    } else {
+      const domNodes = [...document.getElementsByTagName("*")];
+      const flexboxNodes = flexboxElements();
+
+      const modalContent = `
         <h4>DOM Summary</h4>
         <ul>
           <li>Nodes: ${domNodes.length.toLocaleString()}</li>
@@ -18,6 +22,7 @@ export function __dev_toggle_info() {
         </ul>
       `;
 
-    injectModal(modalContent);
+      injectModal(modalContent);
+    }
   }
 }

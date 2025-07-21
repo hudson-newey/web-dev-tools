@@ -1,25 +1,36 @@
 import { removeStylesheet } from "../stylesheets/remove";
+import { Module } from "./module.class";
 
-const overflowStylesheet = new CSSStyleSheet();
-overflowStylesheet.replaceSync(
-  `.__dev_has_overflow { outline: 2px dashed red; }`
-);
+export class OverflowModule extends Module {
+  public readonly name = "__dev_toggle_overflow";
+  private overflowStylesheet = new CSSStyleSheet();
 
-export function __dev_toggle_overflow(active: boolean) {
-  if (active) {
-    const elements = document.querySelectorAll("*");
-    elements.forEach((element) => {
-      const isOverflowing =
-        element.scrollWidth > element.clientWidth ||
-        element.scrollHeight > element.clientHeight;
+  public constructor() {
+    super();
 
-      if (isOverflowing) {
-        element.classList.add("__dev_has_overflow");
-      }
-    });
+    this.overflowStylesheet.replaceSync(
+      `.__dev_has_overflow { outline: 2px dashed red; }`
+    );
+  }
 
-    document.adoptedStyleSheets.push(overflowStylesheet);
-  } else {
-    removeStylesheet(overflowStylesheet);
+  public override toggle(): void {
+    this.active = !this.active;
+
+    if (this.active) {
+      const elements = document.querySelectorAll("*");
+      elements.forEach((element) => {
+        const isOverflowing =
+          element.scrollWidth > element.clientWidth ||
+          element.scrollHeight > element.clientHeight;
+
+        if (isOverflowing) {
+          element.classList.add("__dev_has_overflow");
+        }
+      });
+
+      document.adoptedStyleSheets.push(this.overflowStylesheet);
+    } else {
+      removeStylesheet(this.overflowStylesheet);
+    }
   }
 }

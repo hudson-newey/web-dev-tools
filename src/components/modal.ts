@@ -26,11 +26,10 @@ let modalOpen = false;
 
 export function injectModal(content: string) {
   const currentHtml = modalContent.innerHTML;
-  if (currentHtml === content) {
-    return;
+  if (currentHtml !== content) {
+    modalContent.innerHTML = content;
   }
 
-  modalContent.innerHTML = content;
   if (!modalOpen) {
     document.body.appendChild(modal);
   }

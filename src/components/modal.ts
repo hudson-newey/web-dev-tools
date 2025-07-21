@@ -11,6 +11,10 @@ modalStylesheet.replaceSync(`
   border-radius: 8px;
 
   background-color: black;
+  box-shadow: 0px 0px 4px 1px white;
+
+  overflow: auto;
+  resize: both;
 
   contain: content;
   z-index: 999999999;

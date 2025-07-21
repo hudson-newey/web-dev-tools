@@ -1,3 +1,4 @@
+import { EditModule } from "./modules/editMode";
 import { FlexboxModule } from "./modules/flexbox";
 import { InfoModule } from "./modules/info";
 import type { Module } from "./modules/module.class";
@@ -5,10 +6,16 @@ import { OutlineModule } from "./modules/outline";
 import { OverflowModule } from "./modules/overflow";
 
 const moduleRegistry = new Map<string, Module>([
+  // Styles
   ["q", new OutlineModule()],
   ["w", new OverflowModule()],
   ["e", new FlexboxModule()],
+
+  // Info Panels
   ["a", new InfoModule()],
+
+  // Modes
+  ["=", new EditModule()],
 ]);
 
 // If you press backslash, you will be entered into a mode where the next

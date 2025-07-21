@@ -6,6 +6,8 @@ A collection of tools/helpers to help me with web development.
 | -------- | ------------------------------ |
 | \ + q    | Show bounding boxes            |
 | \ + w    | Outline overflowing containers |
+| \ + e    | Outline flexbox's              |
+| \ + a    | Show DOM summary               |
 
 ## Outline Overflowing Containers
 

@@ -1,6 +1,7 @@
 import { closeModal, injectModal, isModalOpen } from "../components/modal";
 import { countCSSVariables } from "../selectors/css";
 import { flexboxElements } from "../selectors/flexbox";
+import { LayoutShiftObserver } from "../selectors/layout-shift";
 import { createVsyncAction, vsync } from "../updates/vsync";
 import { Module } from "./module.class";
 
@@ -10,6 +11,11 @@ export class InfoModule extends Module {
   private readonly mutationObserver = new MutationObserver(() =>
     vsync(this.mutationFrame, this.update)
   );
+
+  public constructor() {
+    super();
+    LayoutShiftObserver.instance.observe();
+  }
 
   public override toggle(): void {
     if (isModalOpen()) {
@@ -33,12 +39,14 @@ export class InfoModule extends Module {
   private update() {
     const domNodes = [...document.getElementsByTagName("*")];
     const flexboxNodes = flexboxElements();
+    const layoutShiftCount = LayoutShiftObserver.instance.shiftedElementCount;
 
     const modalContent = `
       <ul>
         <li>Nodes: ${domNodes.length.toLocaleString()}</li>
         <li>Flexbox's: ${flexboxNodes.length.toLocaleString()}</li>
         <li>CSS Vars: ${countCSSVariables().toLocaleString()}</li>
+        <li>Layout Shifts: ${layoutShiftCount.toLocaleString()}</li>
       </ul>
     `;
 
